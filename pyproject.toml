@@ -1,0 +1,10 @@
+[project]
+name = "mini-data-pipeline"
+version = "0.1.0"
+description = "A tiny, zero-dependency data pipeline mirroring an AWS architecture, for learning FDE fundamentals."
+requires-python = ">=3.9"
+
+[tool.pytest.ini_options]
+# Keep test output terse and discover tests under tests/.
+addopts = "-q"
+testpaths = ["tests", "examples"]
