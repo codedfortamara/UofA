@@ -100,6 +100,9 @@ diff cleanly, and a CI/CD pipeline that runs the tests on every change. See
 - 🎯 [`docs/FDE_INTERVIEW_GUIDE.md`](docs/FDE_INTERVIEW_GUIDE.md) — the concepts,
   the vocabulary, and the questions an FDE interview will actually ask, each
   answered by pointing at code in this repo.
+- 🔥 [`docs/MOCK_INTERVIEW.md`](docs/MOCK_INTERVIEW.md) — harder open-ended
+  scenarios (schema migration, backfills, consumer lag, poison messages,
+  event-time vs processing-time, exactly-once) with a self-drill checklist.
 
 ## Project layout
 
