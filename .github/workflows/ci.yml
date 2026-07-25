@@ -36,3 +36,7 @@ jobs:
       # that the units pass in isolation.
       - name: Smoke-test the pipeline end to end
         run: python run_pipeline.py batch
+
+      # And the SRF fraud-surveillance case study demo.
+      - name: Smoke-test the SRF fraud demo
+        run: python -m examples.srf_fraud.run_demo

@@ -1,0 +1,10 @@
+{"txn_id": "t1", "account_id": "acc-victim", "payee_id": "p-grocer", "amount": 25.00, "currency": "SGD", "timestamp": "2026-07-20T12:00:00Z", "channel": "paynow"}
+{"txn_id": "t2", "account_id": "acc-victim", "payee_id": "p-grocer", "amount": 18.50, "currency": "SGD", "timestamp": "2026-07-21T09:30:00Z", "channel": "paynow"}
+{"txn_id": "t3", "account_id": "acc-victim", "payee_id": "p-hawker", "amount": 12.00, "currency": "SGD", "timestamp": "2026-07-22T18:00:00Z", "channel": "paynow"}
+{"txn_id": "t4", "account_id": "acc-victim", "payee_id": "p-grocer", "amount": 30.00, "currency": "SGD", "timestamp": "2026-07-23T20:00:00Z", "channel": "paynow"}
+{"txn_id": "t5", "account_id": "acc-victim", "payee_id": "p-hawker", "amount": 15.00, "currency": "SGD", "timestamp": "2026-07-24T13:00:00Z", "channel": "paynow"}
+{"txn_id": "t6", "account_id": "acc-victim", "payee_id": "mule-88", "amount": 1800.00, "currency": "SGD", "timestamp": "2026-07-25T03:01:00Z", "channel": "paynow"}
+{"txn_id": "t7", "account_id": "acc-victim", "payee_id": "mule-88", "amount": 2600.00, "currency": "SGD", "timestamp": "2026-07-25T03:03:00Z", "channel": "paynow"}
+{"txn_id": "t8", "account_id": "acc-victim", "payee_id": "mule-88", "amount": 3200.00, "currency": "SGD", "timestamp": "2026-07-25T03:05:00Z", "channel": "paynow"}
+{"txn_id": "n1", "account_id": "acc-normal", "payee_id": "p-utility", "amount": 120.00, "currency": "SGD", "timestamp": "2026-07-25T13:00:00Z", "channel": "giro"}
+{"txn_id": "n2", "account_id": "acc-normal", "payee_id": "p-utility", "amount": 60.00, "currency": "SGD", "timestamp": "2026-07-25T13:30:00Z", "channel": "giro"}

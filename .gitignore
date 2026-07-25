@@ -3,6 +3,7 @@
 # committed on purpose; everything else under data/ is disposable output.
 data/stream.jsonl
 data/warehouse.db
+examples/srf_fraud/data/_demo_stream.jsonl
 
 # Python
 __pycache__/

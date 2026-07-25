@@ -1,11 +1,12 @@
 # Case study — real-time fraud surveillance for Singapore's Shared Responsibility Framework (SRF)
 
-> **Status: design / proposal.** This document is the write-up we agreed to do
-> *before* building. It presents a current Singapore banking regulation, the
-> problem it creates, and a concrete design for demonstrating a solution as a
-> **parallel, self-contained module** (`examples/srf_fraud/`) that imports the
-> existing pipeline stages without changing them. No code has been written yet;
-> this is the plan to review first.
+> **Status: implemented.** This started as the design write-up we did before
+> building; the module now exists at
+> [`examples/srf_fraud/`](../examples/srf_fraud/README.md) and runs with
+> `python -m examples.srf_fraud.run_demo`. It presents a current Singapore
+> banking regulation, the problem it creates, and a **parallel, self-contained
+> module** that imports the existing pipeline stages without changing them. The
+> design below matches what was built.
 
 ---
 
