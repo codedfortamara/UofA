@@ -103,6 +103,9 @@ diff cleanly, and a CI/CD pipeline that runs the tests on every change. See
 - 🔥 [`docs/MOCK_INTERVIEW.md`](docs/MOCK_INTERVIEW.md) — harder open-ended
   scenarios (schema migration, backfills, consumer lag, poison messages,
   event-time vs processing-time, exactly-once) with a self-drill checklist.
+- 🇸🇬 [`docs/SRF_CASE_STUDY.md`](docs/SRF_CASE_STUDY.md) — a design write-up
+  applying this pipeline to Singapore's Shared Responsibility Framework
+  (real-time fraud surveillance), as a parallel `examples/srf_fraud/` module.
 
 ## Project layout
 
