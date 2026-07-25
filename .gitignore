@@ -1,0 +1,19 @@
+# Generated pipeline data -- these are produced by running the pipeline and
+# should never be committed. The *sample* dataset (data/sample_events.jsonl) is
+# committed on purpose; everything else under data/ is disposable output.
+data/stream.jsonl
+data/warehouse.db
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Terraform state (never commit state -- it can contain secrets)
+infra/.terraform/
+*.tfstate
+*.tfstate.*
+build/

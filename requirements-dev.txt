@@ -1,0 +1,5 @@
+# Development-only dependencies.
+#
+# The pipeline itself has ZERO runtime dependencies -- it uses only the Python
+# standard library. pytest is needed only to run the test suite (and CI).
+pytest>=8.0

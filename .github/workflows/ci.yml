@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------------
+# Continuous Integration / Continuous Delivery (CI/CD) pipeline.
+#
+# The book: "Use a continuous integration/continuous delivery (CI/CD) pipeline.
+# You can automate everything and make your job much easier." This file is that
+# idea made real: on every push and pull request, GitHub runs our tests and a
+# smoke run of the pipeline automatically. Nothing merges without going green.
+# -----------------------------------------------------------------------------
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dev dependencies
+        run: pip install -r requirements-dev.txt
+
+      # "Test the code before applying the changes." A red suite blocks the PR.
+      - name: Run the test suite
+        run: python -m pytest -q
+
+      # A smoke test: prove the whole pipeline still runs end to end, not just
+      # that the units pass in isolation.
+      - name: Smoke-test the pipeline end to end
+        run: python run_pipeline.py batch
