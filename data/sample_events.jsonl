@@ -1,0 +1,10 @@
+{"event_id": "e1", "user_id": "alice", "event_type": "page_view", "timestamp": "2026-07-25T10:00:00Z"}
+{"event_id": "e2", "user_id": "alice", "event_type": "click", "timestamp": "2026-07-25T10:00:05Z"}
+{"event_id": "e3", "user_id": "bob", "event_type": "page_view", "timestamp": "2026-07-25T10:01:00Z"}
+{"event_id": "e4", "user_id": "alice", "event_type": "purchase", "timestamp": "2026-07-25T10:02:00Z", "value": 29.99}
+{"event_id": "e5", "user_id": "carol", "event_type": "signup", "timestamp": "2026-07-25T10:03:00Z"}
+{"event_id": "e6", "user_id": "bob", "event_type": "purchase", "timestamp": "2026-07-25T10:04:00Z", "value": 9.5}
+{"event_id": "e7", "user_id": "carol", "event_type": "click", "timestamp": "2026-07-25T10:05:00Z"}
+{"event_id": "e8", "user_id": "alice", "event_type": "click", "timestamp": "2026-07-25T10:06:00Z"}
+{"event_id": "e9", "user_id": "bob", "event_type": "explode", "timestamp": "2026-07-25T10:07:00Z"}
+{"event_id": "e10", "user_id": "carol", "event_type": "purchase", "timestamp": "not-a-timestamp", "value": 4.0}
