@@ -13,6 +13,7 @@ from pathlib import Path
 import nbformat as nbf
 
 HERE = Path(__file__).parent
+WIDE = ('swish', 'Swish')          # activation of the 'wide + regularised' CV finalist
 TEMPLATE = HERE / 'Case_Study_2_Assignment_Template_File.ipynb'
 OUT = HERE / 'Week2_Case_Study_Tamara_Dinneen.ipynb'
 
@@ -912,17 +913,57 @@ LC.pivot(index='n', columns='model', values=['train_rmse', 'val_rmse']).round(3)
 md(r"""
 <!--INTERP_PART4-->
 
-## 4.6 Final model: one-time held-out test evaluation
-The final network is the tuned configuration from Section 3.6, regularised by early stopping. Part 4 showed early stopping removed most of the overfitting on its own, and adding L2 or dropout on top slightly worsened validation RMSE for this small network. The validation split is used **only** for early stopping and for choosing between seeds. The test split is then scored **once**, alongside the classical baselines. A **stratified 5-fold cross-validation** on train + validation, with the preprocessing re-fit inside every fold, checks how stable the configuration is.
+## 4.6 Final model: selection by 5-fold cross-validation, then a one-time test evaluation
+**Why cross-validation here.** Parts 3–4 select configurations on a *single* 204-row validation split. The seed-to-seed standard deviations (about 0.005–0.02 RMSE) are as large as many of the differences between configurations, so a single split can favour a configuration that merely fits that split well. The finalists are therefore compared with **stratified 5-fold cross-validation on train + validation** (1,155 wines). The preprocessing is re-fit inside every fold, and an inner 15% hold-out drives early stopping. The candidate with the lowest mean CV RMSE becomes the final model, which is trained on the training split (early stopping on validation) and scored **once** on the untouched test split, alongside the classical baselines.
+
+| Candidate | Origin of the idea |
+|---|---|
+| Baseline | ReLU + He, Adam, ES (the Part 3 baseline) |
+| Tuned (val-split winner) | Section 3.6: Swish + He + LayerNorm, SGD-Nesterov + ReduceLROnPlateau, ES |
+| Tuned + light regularisation | adds Section 4.2's best dropout (0.1) and L2 = 1e-3 |
+| Wide + regularised | Part 4's lesson: plenty of capacity (4 × 128) controlled by dropout 0.3 + L2 1e-3 + ES; <<WIDE_ACT_NAME>> activation, Adam |
 """),
 code(r"""
-# Part 4 evidence: early stopping (restore best weights) removed most of the overfitting on its own; adding
-# L2/dropout on top of it slightly hurt the 4x64 tuned network on validation, so the final model keeps ES only.
-FINAL = dict(TUNED)
-fin_runs = run_config('FINAL', FINAL, TUNED_OPT, callbacks_fn=PLATEAU, patience=20)['runs']
-final = min(fin_runs, key=lambda r: r['val_rmse'])['model']                 # chosen on VALIDATION only
+df_trva = pd.concat([df_tr, df_va]); y_trva = df_trva['quality'].values.astype('float32')
+FOLDS = list(StratifiedKFold(5, shuffle=True, random_state=SEED).split(df_trva, df_trva['quality']))
+
+def cv_evaluate(model_kw, opt_fn, callbacks_fn=None, patience=20):
+    rows = []
+    for fold, (a, b) in enumerate(FOLDS, 1):
+        p_f = make_preprocessor().fit(df_trva.iloc[a])                      # re-fit preprocessing inside the fold
+        Xa, Xb = (pd.DataFrame(p_f.transform(df_trva.iloc[i]), columns=ALL_FEATS)[SELECTED].values.astype('float32') for i in (a, b))
+        ia, ib = train_test_split(np.arange(len(a)), test_size=0.15, stratify=y_trva[a], random_state=SEED)   # inner ES split
+        keras.utils.set_random_seed(SEED + fold)
+        m = build_deep_model(N_FEAT, **model_kw); m.compile(optimizer=opt_fn(), loss='mse', steps_per_execution=16)
+        m.fit(make_ds(Xa[ia], y_trva[a][ia]), validation_data=make_ds(Xa[ib], y_trva[a][ib], train=False), epochs=E(150), verbose=0,
+              callbacks=[keras.callbacks.EarlyStopping('val_loss', patience=patience, restore_best_weights=True),
+                         *(callbacks_fn() if callbacks_fn else [])])
+        rows.append({'fold': fold, **reg_metrics(y_trva[b], predict(m, Xb))})
+    return pd.DataFrame(rows).set_index('fold')
+
+ADAM = lambda: keras.optimizers.Adam(1e-3)
+CANDIDATES = {
+    'Baseline (ReLU+He, Adam)': (BASE, ADAM, None, 15),
+    'Tuned (val-split winner)': (TUNED, TUNED_OPT, PLATEAU, 20),
+    'Tuned + dropout 0.1 + L2 1e-3': (dict(TUNED, dropout=0.1, reg=('l2', 1e-3)), TUNED_OPT, PLATEAU, 20),
+    'Wide + regularised (4x128 <<WIDE_ACT_NAME>>, dropout 0.3, L2 1e-3, Adam)': (dict(depth=4, units=128, activation='<<WIDE_ACT>>', init='he_normal',
+                                                                       dropout=0.3, reg=('l2', 1e-3)), ADAM, None, 25)}
+CV_RES = {n: cv_evaluate(kw, o, cb, p) for n, (kw, o, cb, p) in CANDIDATES.items()}
+CV_TABLE = pd.DataFrame({n: {**{f'cv_{c}_mean': d[c].mean() for c in ['rmse', 'mae', 'r2', 'qwk', 'good_auc']}, 'cv_rmse_std': d['rmse'].std()}
+                         for n, d in CV_RES.items()}).T.sort_values('cv_rmse_mean')
+display(CV_TABLE)
+fig, ax = plt.subplots(figsize=(10, 3.2))
+ax.barh(CV_TABLE.index[::-1], CV_TABLE['cv_rmse_mean'][::-1], xerr=CV_TABLE['cv_rmse_std'][::-1], color=PAL[0], capsize=3)
+ax.set(title='Figure 4.6a  Final-candidate comparison: 5-fold CV RMSE (mean ± std across folds)', xlabel='CV RMSE',
+       xlim=(CV_TABLE['cv_rmse_mean'].min() - .05, CV_TABLE['cv_rmse_mean'].max() + .05))
+plt.tight_layout(); plt.show()
+
+BEST = CV_TABLE.index[0]; FINAL_KW, FINAL_OPT, FINAL_CB, FINAL_PAT = CANDIDATES[BEST]
+print('Selected by cross-validation:', BEST)
+fin_runs = run_config('FINAL', FINAL_KW, FINAL_OPT, callbacks_fn=FINAL_CB, patience=FINAL_PAT)['runs']
+final = min(fin_runs, key=lambda r: r['val_rmse'])['model']                 # seed chosen on VALIDATION only
 p_test = predict(final, X_test)
-rows = {'Neural network (final)': reg_metrics(y_test, p_test), 'Predict train mean': reg_metrics(y_test, np.full_like(y_test, Y_MEAN))}
+rows = {f'Neural network (final: {BEST})': reg_metrics(y_test, p_test), 'Predict train mean': reg_metrics(y_test, np.full_like(y_test, Y_MEAN))}
 for n, m in [('Ridge regression', Ridge(1.0)), ('Random forest', RandomForestRegressor(500, min_samples_leaf=2, random_state=SEED, n_jobs=-1))]:
     rows[n] = reg_metrics(y_test, m.fit(X_train, y_train).predict(X_test))
 TEST_TABLE = pd.DataFrame(rows).T; TEST_TABLE
@@ -938,22 +979,7 @@ ax[1].set(title='Confusion matrix (rounded predictions)', xlabel='predicted', yl
 ax[2].hist(p_test - y_test, bins=30, color=PAL[2]); ax[2].axvline(0, c='k'); ax[2].set(title='Residuals (pred - true)')
 fpr, tpr, _ = roc_curve(yt >= 7, p_test); ax[3].plot(fpr, tpr, label=f"AUC = {roc_auc_score(yt >= 7, p_test):.3f}")
 ax[3].plot([0, 1], [0, 1], ':', c='grey'); ax[3].set(title='Flagging "good" wines (>=7) by predicted score', xlabel='FPR', ylabel='TPR'); ax[3].legend()
-plt.suptitle('Figure 4.6  Final model on the held-out test set', fontsize=14, weight='bold'); plt.tight_layout(); plt.show()
-"""),
-code(r"""
-df_trva = pd.concat([df_tr, df_va]); y_trva = df_trva['quality'].values.astype('float32')
-cv = []
-for fold, (a, b) in enumerate(StratifiedKFold(5, shuffle=True, random_state=SEED).split(df_trva, df_trva['quality']), 1):
-    p_f = make_preprocessor().fit(df_trva.iloc[a])
-    Xa, Xb = (pd.DataFrame(p_f.transform(df_trva.iloc[i]), columns=ALL_FEATS)[SELECTED].values.astype('float32') for i in (a, b))
-    ia, ib = train_test_split(np.arange(len(a)), test_size=0.15, stratify=y_trva[a], random_state=SEED)   # inner early-stopping split
-    keras.utils.set_random_seed(SEED + fold)
-    m = build_deep_model(N_FEAT, **FINAL); m.compile(optimizer=TUNED_OPT(), loss='mse', steps_per_execution=16)
-    m.fit(make_ds(Xa[ia], y_trva[a][ia]), validation_data=make_ds(Xa[ib], y_trva[a][ib], train=False), epochs=E(100), verbose=0,
-          callbacks=[keras.callbacks.EarlyStopping('val_loss', patience=20, restore_best_weights=True), *PLATEAU()])
-    cv.append({'fold': fold, **reg_metrics(y_trva[b], predict(m, Xb))})
-CV = pd.DataFrame(cv).set_index('fold'); display(CV.round(4))
-print('5-fold CV:  ' + ' | '.join(f'{c} = {CV[c].mean():.3f} ± {CV[c].std():.3f}' for c in ['rmse', 'mae', 'r2', 'qwk']))
+plt.suptitle('Figure 4.6b  Final model on the held-out test set', fontsize=14, weight='bold'); plt.tight_layout(); plt.show()
 """),
 md(r"""
 ## 4.7 Subgroup and error analysis (evidence for the fairness discussion in Part 5)
@@ -987,7 +1013,7 @@ P5 = [md(r"""
 """)]
 
 
-def build(tuned):
+def build(wide):
     tpl = nbf.read(TEMPLATE, as_version=4)
     t = tpl.cells
     assert len(t) == 18, len(t)
@@ -1003,8 +1029,7 @@ def build(tuned):
     for c in cells:
         if c.cell_type == 'code':
             c.outputs, c.execution_count = [], None
-            c.source = (c.source.replace('<<TUNED_ACT>>', tuned['act']).replace('<<TUNED_NORM>>', tuned['norm'])
-                        .replace('<<TUNED_LABEL>>', tuned['label']))
+        c.source = c.source.replace('<<WIDE_ACT_NAME>>', wide[1]).replace('<<WIDE_ACT>>', wide[0])
     nb = nbf.v4.new_notebook(cells=cells, metadata={
         'colab': {'provenance': []},
         'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'},
@@ -1013,7 +1038,6 @@ def build(tuned):
 
 
 if __name__ == '__main__':
-    tuned = {'act': '', 'norm': '', 'label': ''}
-    nb = build(tuned)
+    nb = build(WIDE)
     nbf.write(nb, OUT)
     print('wrote', OUT.name, len(nb.cells), 'cells')
