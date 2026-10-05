@@ -83,6 +83,7 @@ def E(n):                                 # epoch budget helper
     return max(5, int(n * (0.35 if FAST else 1.0)))
 
 keras.utils.set_random_seed(SEED)         # seeds python, numpy and TF in one call
+tf.get_logger().setLevel('ERROR')          # silence tf.function retracing notices (one model is built per experiment)
 pd.set_option('display.float_format', lambda v: f'{v:,.4f}')
 pd.set_option('display.max_columns', 40)
 sns.set_theme(style='whitegrid', context='notebook')
@@ -709,18 +710,18 @@ md(r"""
 <!--INTERP_NORM-->
 
 ## 3.5 Learning-rate scheduling
-**One factor:** the schedule. Fixed: the baseline network, SGD + momentum with a deliberately high peak learning rate of 0.03, and 60 epochs **without** early stopping (early stopping would cut decaying schedules short).
+**One factor:** the schedule. Fixed: the baseline network, SGD + momentum with a peak learning rate of 0.01 (the SGD + momentum value from 3.1), and 60 epochs **without** early stopping (early stopping would cut decaying schedules short).
 
 | Schedule | Definition |
 |---|---|
-| Constant | lr = 0.03 throughout |
+| Constant | lr = 0.01 throughout |
 | Step decay | halve every 15 epochs (`LearningRateScheduler`) |
 | Exponential decay | ×0.95 per epoch, applied per step (`ExponentialDecay`) |
 | Cosine + warm-up | 5-epoch linear warm-up, then cosine decay to 0 (`CosineDecay(warmup_target=...)`) |
 | ReduceLROnPlateau | halve when validation loss stalls for 4 epochs |
 """),
 code(r"""
-LR0, EP_S, STEPS = 0.03, E(60), math.ceil(len(X_train) / 64)
+LR0, EP_S, STEPS = 0.01, E(60), math.ceil(len(X_train) / 64)
 SCHED = {
     'Constant': dict(opt_fn=lambda: keras.optimizers.SGD(LR0, momentum=0.9)),
     'Step decay (x0.5/15 ep)': dict(opt_fn=lambda: keras.optimizers.SGD(LR0, momentum=0.9),
@@ -741,7 +742,7 @@ for k, r in enumerate(SCHED_RES):
     ax[1].plot(h['val_rmse'], color=PAL[k]); ax[2].plot(h['rmse'], color=PAL[k])
 ax[0].set(title='Learning rate', xlabel='epoch', yscale='log'); ax[0].legend(fontsize=8)
 ax[1].set(title='Validation RMSE', xlabel='epoch', ylim=(0.55, 0.9)); ax[2].set(title='Training RMSE', xlabel='epoch', ylim=(0.2, 0.9))
-plt.suptitle('Figure 3.5  Learning-rate schedules (SGD+momentum, peak lr 0.03)', fontsize=14, weight='bold'); plt.tight_layout(); plt.show()
+plt.suptitle('Figure 3.5  Learning-rate schedules (SGD+momentum, peak lr 0.01)', fontsize=14, weight='bold'); plt.tight_layout(); plt.show()
 """),
 md(r"""
 <!--INTERP_SCHED-->
@@ -750,10 +751,14 @@ md(r"""
 The individually best choices from Sections 3.1–3.5 are combined. Because this changes several factors at once, it is presented as a **confirmation** run against the Part 3 baseline, not as an attribution experiment.
 """),
 code(r"""
-TUNED = dict(depth=4, units=64, activation='<<TUNED_ACT>>', init='he_normal', norm=<<TUNED_NORM>>)
-TUNED_OPT = lambda: keras.optimizers.Adam(keras.optimizers.schedules.CosineDecay(
-    0.0, STEPS * (E(100) - 5), warmup_target=2e-3, warmup_steps=STEPS * 5))
-COMBO = [run_config('Baseline: ReLU + He + Adam(1e-3)', BASE), run_config('Tuned: <<TUNED_LABEL>>', TUNED, TUNED_OPT, patience=25)]
+# Evidence used: 3.1 SGD+Nesterov among the best optimisers | 3.2 He init (matched to the ReLU family, stable across seeds)
+#                3.3 Swish best ReLU-family activation, no dead units | 3.4 LayerNorm best in the ReLU-6 setting
+#                3.5 ReduceLROnPlateau best final val RMSE and smallest gap
+TUNED = dict(depth=4, units=64, activation='swish', init='he_normal', norm='layer')
+TUNED_OPT = lambda: keras.optimizers.SGD(0.01, momentum=0.9, nesterov=True)
+PLATEAU = lambda: [keras.callbacks.ReduceLROnPlateau('val_loss', factor=0.5, patience=4, min_lr=1e-5)]
+COMBO = [run_config('Baseline: ReLU + He + Adam(1e-3)', BASE),
+         run_config('Tuned: Swish + He + LayerNorm, SGD-Nesterov + ReduceLROnPlateau', TUNED, TUNED_OPT, callbacks_fn=PLATEAU, patience=20)]
 COMBO_SUM = summarise(COMBO); display(COMBO_SUM)
 fig, ax = plt.subplots(1, 2, figsize=(14, 3.8))
 curves(COMBO, 'val_rmse', ax[0], 'Validation RMSE', (0.55, 0.85)); curves(COMBO, 'rmse', ax[1], 'Training RMSE', (0.2, 0.85)); ax[0].legend(fontsize=8)
@@ -881,14 +886,13 @@ md(r"""
 Three models are trained on 25%, 50%, 75% and 100% of the training set (stratified subsamples) and always scored on the full validation set:
 - **High bias:** 1 hidden layer of 4 units with strong L2.
 - **High variance:** 4 × 128 with no regularisation and no early stopping.
-- **Regularised:** the tuned configuration (Section 3.6) plus L2, dropout and early stopping.
+- **Tuned + early stopping:** the Section 3.6 configuration, regularised by early stopping (restoring the best weights).
 """),
 code(r"""
 FRACS = [0.25, 0.5, 0.75, 1.0]
 LC_MODELS = {'High bias (1x4, L2=0.1)': dict(model_kw=dict(depth=1, units=4, reg=('l2', 0.1))),
              'High variance (4x128, no reg)': dict(),
-             'Regularised (tuned + L2 + dropout + ES)': dict(model_kw=dict(TUNED, units=128, dropout=0.3, reg=('l2', 1e-3)),
-                                                             opt_fn=TUNED_OPT, early_stop=True, patience=25)}
+             'Tuned + early stopping': dict(model_kw=TUNED, opt_fn=TUNED_OPT, callbacks_fn=PLATEAU, early_stop=True, patience=20)}
 lc = []
 for name, kw in LC_MODELS.items():
     for f in FRACS:
@@ -909,11 +913,13 @@ md(r"""
 <!--INTERP_PART4-->
 
 ## 4.6 Final model: one-time held-out test evaluation
-The final network is the tuned architecture from Section 3.6 plus the Part 4 regularisers (L2 = 1e-3, dropout = 0.3, early stopping). The validation split is used **only** for early stopping and for choosing between seeds. The test split is then scored **once**, alongside the classical baselines. A **stratified 5-fold cross-validation** on train + validation, with the preprocessing re-fit inside every fold, checks how stable the configuration is.
+The final network is the tuned configuration from Section 3.6, regularised by early stopping. Part 4 showed early stopping removed most of the overfitting on its own, and adding L2 or dropout on top slightly worsened validation RMSE for this small network. The validation split is used **only** for early stopping and for choosing between seeds. The test split is then scored **once**, alongside the classical baselines. A **stratified 5-fold cross-validation** on train + validation, with the preprocessing re-fit inside every fold, checks how stable the configuration is.
 """),
 code(r"""
-FINAL = dict(TUNED, units=128, dropout=0.3, reg=('l2', 1e-3))
-fin_runs = run_config('FINAL', FINAL, TUNED_OPT, patience=25)['runs']
+# Part 4 evidence: early stopping (restore best weights) removed most of the overfitting on its own; adding
+# L2/dropout on top of it slightly hurt the 4x64 tuned network on validation, so the final model keeps ES only.
+FINAL = dict(TUNED)
+fin_runs = run_config('FINAL', FINAL, TUNED_OPT, callbacks_fn=PLATEAU, patience=20)['runs']
 final = min(fin_runs, key=lambda r: r['val_rmse'])['model']                 # chosen on VALIDATION only
 p_test = predict(final, X_test)
 rows = {'Neural network (final)': reg_metrics(y_test, p_test), 'Predict train mean': reg_metrics(y_test, np.full_like(y_test, Y_MEAN))}
@@ -944,7 +950,7 @@ for fold, (a, b) in enumerate(StratifiedKFold(5, shuffle=True, random_state=SEED
     keras.utils.set_random_seed(SEED + fold)
     m = build_deep_model(N_FEAT, **FINAL); m.compile(optimizer=TUNED_OPT(), loss='mse', steps_per_execution=16)
     m.fit(make_ds(Xa[ia], y_trva[a][ia]), validation_data=make_ds(Xa[ib], y_trva[a][ib], train=False), epochs=E(100), verbose=0,
-          callbacks=[keras.callbacks.EarlyStopping('val_loss', patience=25, restore_best_weights=True)])
+          callbacks=[keras.callbacks.EarlyStopping('val_loss', patience=20, restore_best_weights=True), *PLATEAU()])
     cv.append({'fold': fold, **reg_metrics(y_trva[b], predict(m, Xb))})
 CV = pd.DataFrame(cv).set_index('fold'); display(CV.round(4))
 print('5-fold CV:  ' + ' | '.join(f'{c} = {CV[c].mean():.3f} ± {CV[c].std():.3f}' for c in ['rmse', 'mae', 'r2', 'qwk']))
@@ -1007,8 +1013,7 @@ def build(tuned):
 
 
 if __name__ == '__main__':
-    tuned = json.loads(sys.argv[1]) if len(sys.argv) > 1 else {
-        'act': 'elu', 'norm': 'None', 'label': 'ELU + He + Adam (cosine warm-up)'}
+    tuned = {'act': '', 'norm': '', 'label': ''}
     nb = build(tuned)
     nbf.write(nb, OUT)
     print('wrote', OUT.name, len(nb.cells), 'cells')
