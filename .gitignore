@@ -18,3 +18,5 @@ infra/.terraform/
 *.tfstate
 *.tfstate.*
 build/
+# course materials (personal-use licence) - kept out of git
+coursework/IT721_Week2_Case_Study/Case_Study_2_Assignment_Template_File.ipynb
