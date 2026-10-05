@@ -96,3 +96,32 @@ INTERP['PART4'] = r"""
 """
 
 # Section 4.6/4.7 and Part 5 are filled in after the final run (see fill_final()).
+
+INTERP['FINAL'] = r"""
+**Final-model findings (Figures 4.6a–b).**
+- **Observation, model selection:** cross-validation **reverses the single-split ranking**. The Section 3.6 "tuned" network won on the validation split (0.626), but under 5-fold CV it scores **0.680 ± 0.020**. The **wide, regularised Swish network** (4 × 128, dropout 0.3, L2 1e-3, Adam, early stopping) is clearly best at **0.639 ± 0.025** (R² 0.40), ahead of the tuned network with light regularisation (0.670) and the baseline (0.693). In exploratory ablations on two CV shuffles, removing dropout and L2 cost about 0.06 RMSE, and swapping Swish for ReLU about 0.025.
+- **Observation, one-time test:** the selected network achieves **test RMSE 0.652, MAE 0.510, R² 0.374 and QWK 0.521**. **97.6% of predictions are within ±1 point**, and the predicted score flags "good" wines with **ROC-AUC 0.90**. This is level with the random forest (RMSE 0.650, R² 0.377), better than ridge regression (0.661), and far better than predicting the mean (0.824). The test result agrees with the CV estimate (0.639 ± 0.025), so the selection did not overfit.
+- **Reason:** LayerNorm and SGD-Nesterov fitted the particular 204 validation wines well, but those choices did not transfer to other partitions. Generous capacity held in check by strong regularisation generalises better on noisy, ordinal sensory labels.
+- **Impact:** on a dataset this small, configurations should be selected with cross-validation (or repeated splits) rather than one validation split. A well-regularised neural network matches, but does not beat, a tuned tree ensemble here, which is a fair result for 1,000 tabular rows.
+"""
+
+INTERP['SUBGROUP'] = r"""
+**Error-analysis findings.**
+- **Observation:** errors are strongly **regressed toward the mean**. Wines rated 3–4 are over-predicted by +1.2 to +2.3 points, while wines rated 7 are under-predicted by −0.73 and wines rated 8 by −1.68. By alcohol band, high-alcohol wines (≥ 11.5%) have the largest error (MAE 0.60 vs 0.44 for low-alcohol wines) and are systematically under-scored (mean residual −0.19).
+- **Reason:** MSE training on a target where 82% of labels are 5 or 6 rewards hedging toward about 5.6. The extremes (3, 4, 8) make up about 6% of the training data, so the model sees too few examples to commit to them.
+- **Impact:** the model is most reliable exactly where it is least needed (ordinary wines), and least reliable for the exceptional or flawed wines that matter most to buyers and producers. This motivates the fairness discussion in Part 5.
+"""
+
+INTERP['PART5'] = r"""
+### Written Analysis & Reflection
+
+**Optimisation experiments and gradient flow.** With sigmoid activations and Xavier initialisation, the first-layer gradient fell from 3×10⁻² at three layers to 4×10⁻⁸ at twelve, and every network deeper than three layers was stuck predicting the mean. ReLU with He initialisation kept the gradient profile almost flat. Even so, the 9- and 12-layer networks diverged under momentum SGD as gradient magnitude grew with depth. An over-scaled initialisation produced gradients up to 7×10¹⁰ and immediate divergence. BatchNorm fixed both pathologies at their source. Gradient clipping prevented NaNs, but a badly scaled network still could not learn.
+
+**Comparison of techniques.** Once tuned, optimisers differed by only about 0.005 RMSE; the learning rate mattered more than the optimiser. Any variance-scaled initialiser worked, while zeros, tiny and large initialisations failed outright. Swish avoided dead units and had the smallest generalisation gap. LayerNorm suited small-batch training better than BatchNorm. ReduceLROnPlateau gave the most stable end-of-training model. The data's main constraint is **variance**: an unregularised network overfits within about five epochs. Early stopping with weight restoration, dropout around 0.1–0.3 in early layers, and L2 around 10⁻³–10⁻² were the most effective controls. Five-fold cross-validation showed that my validation-split "winner" did not generalise. The final regularised Swish network reached test RMSE 0.65, R² 0.37 and ±1 accuracy of 97.6%, on par with a random forest.
+
+**Bias and fairness concern.** The model systematically **compresses scores toward the average**: wines rated 8 are under-predicted by about 1.7 points and wines rated 3 over-predicted by about 2.3. The labels are also the median of a few Portuguese *vinho verde* tasters, so they encode one regional panel's taste. If such a system were used to price, list or certify wines, distinctive producers whose wines fall outside that profile would be penalised. Alcohol, the dominant feature, could also become a proxy for "quality" that favours warmer-climate or riper styles.
+
+**Optimisation choices and reliability.** Choices that look equivalent on one split can diverge in deployment. A learning rate slightly too high produced NaNs, BatchNorm's batch dependence created unstable predictions, and a single-split choice overfit the validation set. Fixed seeds, cross-validated evaluation and stable schedules reduce the risk that a retrained model behaves differently from the approved one.
+
+**Production recommendations.** (1) Select models with cross-validation and report uncertainty, not single-split scores. (2) Monitor gradient norms and loss for NaNs during training, with clipping and early stopping as safeguards. (3) Prefer normalisation that does not depend on batch statistics for small-batch or online inference. (4) Version the preprocessing pipeline with the model, since the Yeo–Johnson parameters are fitted to training data. (5) Audit errors by quality band and style, and route extreme predictions to human experts. (6) Monitor for drift when chemistry or vintages differ from the training distribution, and benchmark against simple models before accepting a neural network's added complexity.
+"""
