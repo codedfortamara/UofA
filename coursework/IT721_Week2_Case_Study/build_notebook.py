@@ -982,6 +982,9 @@ ax[3].plot([0, 1], [0, 1], ':', c='grey'); ax[3].set(title='Flagging "good" wine
 plt.suptitle('Figure 4.6b  Final model on the held-out test set', fontsize=14, weight='bold'); plt.tight_layout(); plt.show()
 """),
 md(r"""
+<!--INTERP_FINAL-->
+"""),
+md(r"""
 ## 4.7 Subgroup and error analysis (evidence for the fairness discussion in Part 5)
 Errors are broken down by **true quality** and by **alcohol band**. A model trained with MSE on a score concentrated at 5–6 is expected to **regress toward the mean**: it over-scores poor wines and under-scores exceptional ones.
 """),
@@ -992,6 +995,9 @@ by_band = te.groupby('alcohol_band').agg(n=('pred', 'size'), mean_true=('quality
                                           mean_residual=('resid', 'mean'), mae=('resid', lambda r: r.abs().mean())).reindex(['low', 'medium', 'high'])
 display(by_q.round(3)); display(by_band.round(3))
 print(f'Total notebook runtime: {(time.time() - T_START) / 60:.1f} min')
+"""),
+md(r"""
+<!--INTERP_SUBGROUP-->
 """),
 ]
 
