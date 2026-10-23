@@ -155,6 +155,19 @@ class PracticeView {
         playing with someone who tunes differently.</p>
       </div>
 
+      <div class="card">
+        <h3 style="margin-top:0">The Android app</h3>
+        <p style="font-size:0.93rem">There is a native Android version of this app. It can ask Android for the
+        raw, unprocessed microphone input, which a browser cannot, so the tuner reads more steadily. It works
+        entirely offline and has no network permission at all.</p>
+        <div class="btn-row" style="margin-bottom:0">
+          <a class="btn gold" href="cello.apk" download>Download the Android app</a>
+        </div>
+        <p style="font-size:0.85rem;color:var(--charcoal-soft);margin:0.7rem 0 0">Android will warn that this did
+        not come from the Play Store. Choose to install anyway. This page works perfectly well on its own if you
+        would rather not.</p>
+      </div>
+
       <div class="card flat">
         <h3 style="margin-top:0">Progress</h3>
         <p style="font-size:0.9rem">Progress is kept on this device only. Nothing is uploaded anywhere.</p>
