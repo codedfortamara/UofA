@@ -1,0 +1,778 @@
+{
+  "version": 1,
+  "title": "Cello from scratch",
+  "subtitle": "Fourteen short lessons for an adult beginner on a 1/8 size cello",
+  "sizeNote": "A 1/8 cello is built for a child of about four to six. As an adult you will feel cramped, and the finger spacing is roughly half of a full size instrument. That is the instrument, not a mistake you are making. Everything in this course (bow control, tone, note names, reading, intonation) transfers directly to a larger cello later.",
+  "tuningNote": "Fractional cellos tune to exactly the same pitches as a full size cello: C2, G2, D3, A3. Small instruments go out of tune faster, so expect to tune every time you play.",
+  "strings": [
+    { "id": "C", "note": "C2", "hz": 65.406, "index": 1, "label": "C string", "role": "Lowest and thickest, nearest your left knee.", "thickness": 4 },
+    { "id": "G", "note": "G2", "hz": 97.999, "index": 2, "label": "G string", "role": "Second from the left.", "thickness": 3 },
+    { "id": "D", "note": "D3", "hz": 146.832, "index": 3, "label": "D string", "role": "Third from the left. Most lessons start here.", "thickness": 2 },
+    { "id": "A", "note": "A3", "hz": 220.0, "index": 4, "label": "A string", "role": "Highest and thinnest, nearest your right knee.", "thickness": 1 }
+  ],
+  "units": [
+    { "id": "u1", "title": "Set up and first sounds", "lessons": ["l1", "l2", "l3"] },
+    { "id": "u2", "title": "Bow control", "lessons": ["l4", "l5", "l6"] },
+    { "id": "u3", "title": "The left hand", "lessons": ["l7", "l8", "l9", "l10"] },
+    { "id": "u4", "title": "Playing tunes", "lessons": ["l11", "l12", "l13", "l14"] }
+  ],
+  "lessons": [
+    {
+      "id": "l1",
+      "unit": "u1",
+      "title": "Meet your cello",
+      "minutes": 5,
+      "goal": "Know the parts you will actually use, sit so the cello is stable, and name the four strings.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "About this instrument",
+          "body": [
+            "You are playing a 1/8 size cello. It is built for a child of roughly four to six years old, so as an adult you will feel folded up around it. Your knees will be close to the body and your left hand will feel bunched.",
+            "That is expected. A 1/8 cello still tunes to the same four pitches as a full size cello, and every skill in this course transfers upward without relearning."
+          ],
+          "tip": "If you can borrow or rent a larger cello later, do. For now this instrument teaches bow control, tone and intonation perfectly well."
+        },
+        {
+          "type": "info",
+          "title": "The parts you will use",
+          "body": [
+            "Pegs: the four large wooden handles in the scroll at the top. These make big tuning changes.",
+            "Fine tuners: small metal screws at the tailpiece, at the bottom. These make small tuning changes and are much safer to use.",
+            "Bridge: the thin curved piece of wood standing under the strings. It is not glued; it is held up by string tension. Do not knock it.",
+            "Fingerboard: the long black strip under the strings. Your left fingers press the strings onto it.",
+            "Endpin: the metal spike at the bottom that rests on the floor."
+          ],
+          "tip": "On a 1/8 cello the endpin is very short. If the cello sits too low, rest the endpin on a thick book or a folded towel so the instrument comes up towards you."
+        },
+        {
+          "type": "info",
+          "title": "How to sit",
+          "body": [
+            "Sit forward on the front half of a chair with both feet flat on the floor.",
+            "Let the body of the cello rest against your breastbone, with the left side of the lower body touching your left knee and the right side near your right knee.",
+            "Tilt the cello slightly to the right so the bow can reach all four strings without hitting your knee.",
+            "The neck should pass near your left ear. On a small cello it will sit lower than that, which is fine."
+          ],
+          "tip": "The cello should balance against your body without your hands holding it up. If you have to grip it, adjust the angle until it stands on its own."
+        },
+        {
+          "type": "info",
+          "title": "The four strings",
+          "body": [
+            "Looking down at the strings from where you sit, from left to right they are C, G, D, A.",
+            "C is thickest and lowest in pitch. A is thinnest and highest.",
+            "A useful phrase for the order left to right: Cats Go Down Alleys.",
+            "Most of this course lives on the D and A strings, the two on the right."
+          ]
+        },
+        {
+          "type": "check",
+          "prompt": "Before moving on, confirm each of these.",
+          "items": [
+            "I am sitting forward on the chair with both feet flat.",
+            "The cello rests on my breastbone and balances without me holding it.",
+            "I can point to the pegs, the fine tuners and the bridge.",
+            "I can name the four strings from left to right."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l2",
+      "unit": "u1",
+      "title": "Tuning your cello",
+      "minutes": 8,
+      "goal": "Get all four strings in tune using the built in tuner, safely, without breaking a string.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Why this comes second",
+          "body": [
+            "An out of tune cello teaches your ear the wrong thing, so tuning comes before any playing.",
+            "Small cellos drift quickly. Tune at the start of every single practice session."
+          ]
+        },
+        {
+          "type": "info",
+          "title": "Fine tuners first, pegs only when you must",
+          "body": [
+            "If the string is close to pitch (the tuner shows a small number), use the fine tuner at the tailpiece. Clockwise raises the pitch, anticlockwise lowers it. Quarter turns.",
+            "If the string is far off, or the fine tuner has run out of travel, you need the peg. Pegs move a lot for very little turn, so move them in tiny amounts.",
+            "To use a peg: hold the cello steady, and as you turn, push the peg gently into the hole. The push is what stops it slipping back."
+          ],
+          "tip": "Always arrive at the pitch from below, that is, tune upward onto the note. A string tightened up to pitch holds much better than one loosened down onto it."
+        },
+        {
+          "type": "info",
+          "title": "Two safety rules",
+          "body": [
+            "Go slowly and watch the number on screen as you turn. If the pitch is climbing fast, stop and turn back.",
+            "Tune in the order A, then D, then G, then C. Each string changes the tension on the whole instrument, so you will go round twice before everything settles."
+          ],
+          "tip": "If a string sounds dead or buzzy rather than simply out of tune, stop and check the bridge is standing upright and the string is sitting in its groove."
+        },
+        {
+          "type": "tune",
+          "prompt": "Tune all four strings now. Work through them in the order shown, then go round once more to settle.",
+          "strings": ["A", "D", "G", "C"]
+        },
+        {
+          "type": "check",
+          "prompt": "Confirm the result.",
+          "items": [
+            "All four strings showed in tune on the meter.",
+            "I went round all four strings a second time.",
+            "I used fine tuners for the small adjustments."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l3",
+      "unit": "u1",
+      "title": "The bow, and your first note",
+      "minutes": 9,
+      "goal": "Prepare the bow, hold it without tension, and draw a sustained sound on the D string.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Rosin: the step beginners miss",
+          "body": [
+            "A bow with no rosin on the hair slides silently across the string and makes almost no sound. If your cello seems broken, this is usually why.",
+            "Rosin is the small block of hard resin in the case. Hold it against the tightened bow hair near the frog and draw the bow along it, end to end, eight to ten times with light pressure.",
+            "A new bow needs a good two minutes of rosining the first time. After that, a few strokes every couple of sessions is plenty."
+          ],
+          "tip": "If the rosin block is shiny and glassy, scratch its surface lightly with a key so it gives up some powder."
+        },
+        {
+          "type": "info",
+          "title": "Tighten the bow, and loosen it afterwards",
+          "body": [
+            "Turn the screw at the end of the bow clockwise to tighten. You want a gap of roughly a pencil width between the hair and the middle of the stick.",
+            "The stick should still curve gently towards the hair. If it has straightened or bowed away, it is far too tight.",
+            "When you finish playing, always loosen it back off until the hair is slack. Leaving a bow tight will ruin it."
+          ]
+        },
+        {
+          "type": "info",
+          "title": "Holding the bow",
+          "body": [
+            "Pick the bow up at the frog, the chunky end.",
+            "Put the tip of your bent thumb in the notch where the frog meets the stick. The thumb stays curved, never locked flat.",
+            "Let the middle two fingers drape over the stick so they hang down the far side.",
+            "The index finger rests on the stick a little further along, and the little finger sits on top of the stick, curved.",
+            "Everything should feel heavy and loose, like your hand is hanging off the bow rather than clamping it."
+          ],
+          "tip": "Tension is the enemy. If your knuckles are white, let go, shake your hand out, and start again."
+        },
+        {
+          "type": "info",
+          "title": "Where the bow goes",
+          "body": [
+            "Place the bow hair on the D string, in the gap between the end of the fingerboard and the bridge, roughly in the middle of that gap.",
+            "Start with the middle of the bow on the string.",
+            "Pull the bow to your right, keeping it parallel to the bridge. That is a down bow. Push it back to the left for an up bow.",
+            "Use the weight of your arm rather than pressing down. Let the bow do the work."
+          ]
+        },
+        {
+          "type": "listen",
+          "prompt": "Draw a bow across the open D string and let it ring. Any steady sound counts here. I am listening for a note, not perfection.",
+          "target": { "string": "D" },
+          "holdSec": 2.0,
+          "toleranceCents": 60,
+          "reps": 3,
+          "passReps": 2,
+          "metrics": ["pitch", "duration"],
+          "coach": {
+            "silence": "I am not hearing a string. Check the bow is tightened, has rosin on it, and that the hair is actually touching the string between the fingerboard and the bridge.",
+            "flat": "That is below D. Make sure you are on the third string from the left, and that no finger is touching the string.",
+            "sharp": "That is above D. You may be on the A string, which is the thin one on the right. Move one string to the left.",
+            "short": "The sound stopped quickly. Keep the bow moving slowly and steadily all the way to the end of the hair.",
+            "good": "That is a cello note. You have a sound."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l4",
+      "unit": "u2",
+      "title": "Long, steady bows",
+      "minutes": 8,
+      "goal": "Draw a full bow that keeps one tone from end to end, which is the foundation of everything else.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "What a good bow sounds like",
+          "body": [
+            "A good long bow sounds the same at the start, middle and end. No scratching at the beginning, no fading at the end.",
+            "Three things cause an uneven sound: changing speed partway through, changing pressure, and letting the bow drift out of parallel with the bridge."
+          ],
+          "tip": "Watch the bow against the bridge as you play. It should slide along one track, not wander towards the fingerboard."
+        },
+        {
+          "type": "info",
+          "title": "The natural weight problem",
+          "body": [
+            "The bow is heavier near the frog, so the bottom half naturally plays louder and the top half naturally fades.",
+            "To even this out: as you travel towards the tip on a down bow, let the index finger lean in slightly to add weight. Coming back on an up bow, ease that weight off."
+          ]
+        },
+        {
+          "type": "listen",
+          "prompt": "Play open D with a full, slow down bow lasting about four seconds. Keep one speed and one pressure the whole way.",
+          "target": { "string": "D" },
+          "holdSec": 4.0,
+          "toleranceCents": 45,
+          "reps": 4,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "tone", "stability"],
+          "coach": {
+            "silence": "No sound reached me. Check rosin and that the bow is on the string.",
+            "short": "That lasted under three seconds. Slow the bow right down and aim to use the whole length of the hair.",
+            "uneven": "The volume moved around during the note. That is usually the bow changing speed, or the weight of the bow taking over as you travel. Try to keep one single speed from end to end.",
+            "unstable": "The pitch wavered. On an open string that normally means the bow is drifting out of parallel with the bridge, or rolling onto a neighbouring string.",
+            "good": "Even from start to finish. That is the sound you are looking for."
+          }
+        },
+        {
+          "type": "listen",
+          "prompt": "Now the same thing on the open A string, the thin one on the right.",
+          "target": { "string": "A" },
+          "holdSec": 4.0,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "metrics": ["pitch", "duration", "tone", "stability"],
+          "coach": {
+            "flat": "That is below A. You may have landed on the D string. Move one string to the right.",
+            "uneven": "The A string needs a lighter touch and a slightly faster bow than D. Try easing the pressure off.",
+            "good": "Good. The thinner strings want less weight, and you found it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l5",
+      "unit": "u2",
+      "title": "All four strings, and crossing between them",
+      "minutes": 7,
+      "goal": "Find any named string reliably, and move between neighbours without a bump.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Crossing with the arm",
+          "body": [
+            "To change string, the whole right arm moves to a new height. The hand and wrist stay in the same shape.",
+            "Going from D to A, the arm drops slightly. Going from D to G, it lifts slightly.",
+            "Make the change while the bow is still moving, so the two notes join rather than clunk."
+          ],
+          "tip": "Each string sits at its own arm height. Learn the four heights and string crossing becomes automatic."
+        },
+        {
+          "type": "listen",
+          "prompt": "Play the open A string.",
+          "target": { "string": "A" },
+          "holdSec": 2.0,
+          "toleranceCents": 40,
+          "reps": 2,
+          "passReps": 2,
+          "metrics": ["pitch", "duration"],
+          "coach": { "good": "That is A, the highest open string." }
+        },
+        {
+          "type": "listen",
+          "prompt": "Play the open D string.",
+          "target": { "string": "D" },
+          "holdSec": 2.0,
+          "toleranceCents": 40,
+          "reps": 2,
+          "passReps": 2,
+          "metrics": ["pitch", "duration"],
+          "coach": { "good": "That is D, your home string." }
+        },
+        {
+          "type": "listen",
+          "prompt": "Play the open G string, second from the left.",
+          "target": { "string": "G" },
+          "holdSec": 2.0,
+          "toleranceCents": 40,
+          "reps": 2,
+          "passReps": 2,
+          "metrics": ["pitch", "duration"],
+          "coach": {
+            "uneven": "Thicker strings need a slower bow with a little more weight to get going.",
+            "good": "That is G."
+          }
+        },
+        {
+          "type": "listen",
+          "prompt": "Play the open C string, the thickest one on the left.",
+          "target": { "string": "C" },
+          "holdSec": 2.0,
+          "toleranceCents": 50,
+          "reps": 3,
+          "passReps": 2,
+          "metrics": ["pitch", "duration"],
+          "coach": {
+            "silence": "The C string is the hardest to get sounding. Slow the bow down and let more arm weight sink into the string.",
+            "uneven": "C needs the slowest bow and the most weight of the four. Be patient with it.",
+            "good": "Well done. C is the most awkward string on a small cello."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l6",
+      "unit": "u2",
+      "title": "Playing in time",
+      "minutes": 8,
+      "goal": "Keep steady time with a metronome, and change bow direction exactly on the beat.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Counting",
+          "body": [
+            "A crotchet, or quarter note, lasts one beat. A minim, or half note, lasts two. A semibreve, or whole note, lasts four.",
+            "Change bow direction on the beat, not just after it. Think of the click as the moment the bow turns around."
+          ]
+        },
+        {
+          "type": "rhythm",
+          "prompt": "Eight separate notes on the open D string, one per click. Down bow, up bow, alternating.",
+          "target": { "string": "D" },
+          "bpm": 60,
+          "beats": 8,
+          "toleranceMs": 180,
+          "coach": {
+            "early": "You are arriving ahead of the click. Wait for it; let the click lead you.",
+            "late": "You are landing behind the click. Start the bow moving a fraction earlier.",
+            "scattered": "The timing is uneven rather than consistently early or late. Count out loud, one, two, three, four, while you play.",
+            "good": "Steady. That is in time."
+          }
+        },
+        {
+          "type": "rhythm",
+          "prompt": "Now four notes, each lasting two clicks. One slow bow per note.",
+          "target": { "string": "D" },
+          "bpm": 60,
+          "beats": 4,
+          "beatsPerNote": 2,
+          "toleranceMs": 200,
+          "coach": {
+            "good": "Good. Longer notes need a slower bow, not a bigger one."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l7",
+      "unit": "u3",
+      "title": "The left hand, and your first finger",
+      "minutes": 9,
+      "goal": "Set up a relaxed left hand and play E on the D string with the first finger.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Left hand shape",
+          "body": [
+            "Bring your left hand to the neck with the fingers curved, as though holding a tennis ball.",
+            "The thumb rests on the back of the neck, roughly opposite your second finger. It supports, it does not squeeze.",
+            "Press the string with the fleshy tip of the finger, just behind the nail, not with the flat pad.",
+            "Keep the knuckles up so the fingers come down onto the string from above."
+          ],
+          "tip": "On a 1/8 cello the spacing is tiny, so your adult fingers will feel stacked on top of each other. Use fingertips and accept that it is crowded."
+        },
+        {
+          "type": "info",
+          "title": "First finger: E on the D string",
+          "body": [
+            "The first finger is your index finger.",
+            "Place it on the D string a short distance from the nut, the ridge at the top of the fingerboard. On a 1/8 cello that distance is roughly two to two and a half centimetres.",
+            "Press firmly enough that the string meets the fingerboard. A half pressed string buzzes.",
+            "This note is E."
+          ]
+        },
+        {
+          "type": "listen",
+          "prompt": "First finger on the D string, and bow. Aim for E. I will tell you how close you are.",
+          "target": { "note": "E3" },
+          "holdSec": 2.5,
+          "toleranceCents": 35,
+          "reps": 5,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": {
+            "silence": "No clear note. The string may be only half pressed, which chokes it. Press harder with the fingertip.",
+            "flat": "A little low. Slide the finger very slightly towards the bridge, away from the scroll.",
+            "sharp": "A little high. Slide the finger very slightly back towards the scroll.",
+            "unstable": "The pitch moved while the note sounded. That is usually the finger pressure easing off, or the finger creeping along the string. Set it down and keep it still.",
+            "good": "That is E, in tune. Remember where that felt."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l8",
+      "unit": "u3",
+      "title": "Third and fourth fingers",
+      "minutes": 9,
+      "goal": "Add F sharp and G on the D string, and play the first four notes of a D major scale.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Why first, third and fourth",
+          "body": [
+            "Cellists in this hand position use fingers one, three and four for these notes, skipping the second finger.",
+            "Open D is the first note. First finger gives E. Third finger gives F sharp. Fourth finger, your little finger, gives G.",
+            "The fourth finger is weak at first. Supporting it by keeping the other fingers down helps."
+          ],
+          "tip": "Leave the lower fingers resting on the string as you add higher ones. It keeps the hand in position and makes coming back down easier."
+        },
+        {
+          "type": "listen",
+          "prompt": "Third finger on the D string. Aim for F sharp.",
+          "target": { "note": "F#3" },
+          "holdSec": 2.5,
+          "toleranceCents": 35,
+          "reps": 5,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": {
+            "flat": "A little low. Move the finger a touch towards the bridge.",
+            "sharp": "A little high. Move the finger a touch towards the scroll.",
+            "good": "That is F sharp."
+          }
+        },
+        {
+          "type": "listen",
+          "prompt": "Fourth finger, the little finger, on the D string. Aim for G.",
+          "target": { "note": "G3" },
+          "holdSec": 2.5,
+          "toleranceCents": 40,
+          "reps": 5,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": {
+            "silence": "The little finger may not be pressing hard enough to stop the string. Keep the other fingers down to help support it.",
+            "flat": "A little low. The fourth finger tends to collapse and land short. Keep it curved and reach slightly further.",
+            "sharp": "A little high. Ease back towards the scroll.",
+            "unstable": "The little finger is the weakest, so wobble here is normal. Keep fingers one and three resting on the string to steady the hand.",
+            "good": "That is G, with the hardest finger. Good."
+          }
+        },
+        {
+          "type": "sequence",
+          "prompt": "Now play all four in order, one slow bow each: open D, then first finger E, then third finger F sharp, then fourth finger G.",
+          "notes": ["D3", "E3", "F#3", "G3"],
+          "holdSec": 1.5,
+          "toleranceCents": 40,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "That is the bottom half of a D major scale."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l9",
+      "unit": "u3",
+      "title": "The same shape on the A string",
+      "minutes": 9,
+      "goal": "Transfer the hand shape to the A string to get B, C sharp and D.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "One shape, four strings",
+          "body": [
+            "The hand shape you learned on D works unchanged on every string. Only the arm height moves.",
+            "On the A string: open A, first finger B, third finger C sharp, fourth finger D.",
+            "That is the top half of the D major scale."
+          ]
+        },
+        {
+          "type": "listen",
+          "prompt": "First finger on the A string. Aim for B.",
+          "target": { "note": "B3" },
+          "holdSec": 2.5,
+          "toleranceCents": 35,
+          "reps": 4,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": { "good": "That is B." }
+        },
+        {
+          "type": "listen",
+          "prompt": "Third finger on the A string. Aim for C sharp.",
+          "target": { "note": "C#4" },
+          "holdSec": 2.5,
+          "toleranceCents": 35,
+          "reps": 4,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": { "good": "That is C sharp." }
+        },
+        {
+          "type": "listen",
+          "prompt": "Fourth finger on the A string. Aim for D, an octave above your open D string.",
+          "target": { "note": "D4" },
+          "holdSec": 2.5,
+          "toleranceCents": 40,
+          "reps": 4,
+          "passReps": 3,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": {
+            "good": "That is D, one octave above the open D string. Play them one after the other and listen to how they match."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l10",
+      "unit": "u3",
+      "title": "D major scale, one octave",
+      "minutes": 10,
+      "goal": "Play a full one octave D major scale up and down, in tune and in time.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "The whole scale",
+          "body": [
+            "Going up: open D, E with first finger, F sharp with third, G with fourth, then cross to the A string for open A, B with first, C sharp with third, D with fourth.",
+            "Coming down, the same notes in reverse.",
+            "The string crossing from G to A is the hard join. Keep the bow moving through it."
+          ],
+          "tip": "Play it slowly enough that every note is in tune. Speed with bad intonation teaches your hand the wrong places."
+        },
+        {
+          "type": "sequence",
+          "prompt": "Play the scale upward, one slow bow per note.",
+          "notes": ["D3", "E3", "F#3", "G3", "A3", "B3", "C#4", "D4"],
+          "holdSec": 1.3,
+          "toleranceCents": 40,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "A one octave D major scale. That is a real milestone."
+          }
+        },
+        {
+          "type": "sequence",
+          "prompt": "Now play it downward from the top D.",
+          "notes": ["D4", "C#4", "B3", "A3", "G3", "F#3", "E3", "D3"],
+          "holdSec": 1.3,
+          "toleranceCents": 40,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "Both directions. Your hand is learning the shape."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l11",
+      "unit": "u4",
+      "title": "Your first tune",
+      "minutes": 10,
+      "goal": "Play Twinkle, Twinkle, Little Star in D major.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "The notes",
+          "body": [
+            "In D major, Twinkle goes: D D A A B B A, then G G F sharp F sharp E E D.",
+            "Every note is one you already know from the scale.",
+            "The last note of each half is twice as long as the others."
+          ]
+        },
+        {
+          "type": "rhythm",
+          "prompt": "First the rhythm only, on the open D string. Seven notes: six short, then one long.",
+          "target": { "string": "D" },
+          "bpm": 66,
+          "beats": 7,
+          "toleranceMs": 200,
+          "coach": { "good": "That is the rhythm. Now add the notes." }
+        },
+        {
+          "type": "sequence",
+          "prompt": "Now the first half with the proper notes: D D A A B B A.",
+          "notes": ["D3", "D3", "A3", "A3", "B3", "B3", "A3"],
+          "holdSec": 1.0,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "coach": { "good": "Recognisable. That is a tune." }
+        },
+        {
+          "type": "sequence",
+          "prompt": "And the second half: G G F sharp F sharp E E D.",
+          "notes": ["G3", "G3", "F#3", "F#3", "E3", "E3", "D3"],
+          "holdSec": 1.0,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "coach": { "good": "You have played a complete tune on the cello." }
+        }
+      ]
+    },
+    {
+      "id": "l12",
+      "unit": "u4",
+      "title": "The lower strings",
+      "minutes": 8,
+      "goal": "Get a clean sound on G and C, which need a different bow technique.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Thick strings want a slower bow",
+          "body": [
+            "The G and C strings are much thicker, so they need more time and more arm weight to start vibrating.",
+            "Use a slower bow with more weight sinking in from the shoulder. If you bow fast and light, they will whistle or produce nothing.",
+            "On a 1/8 cello the C string is genuinely difficult, because the string is short for the pitch it has to produce. Expect it to sound a bit woolly."
+          ]
+        },
+        {
+          "type": "listen",
+          "prompt": "Open G, a long slow bow with weight.",
+          "target": { "string": "G" },
+          "holdSec": 3.5,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "metrics": ["pitch", "duration", "tone"],
+          "coach": {
+            "uneven": "Slow the bow down further and let the arm sink. Thick strings reward patience.",
+            "good": "Clean. That is the technique for the lower strings."
+          }
+        },
+        {
+          "type": "listen",
+          "prompt": "First finger on the G string gives A. Try it.",
+          "target": { "note": "A2" },
+          "holdSec": 2.5,
+          "toleranceCents": 40,
+          "reps": 4,
+          "passReps": 2,
+          "metrics": ["pitch", "duration", "stability"],
+          "coach": {
+            "silence": "Lower strings are thicker and need more finger pressure to stop properly. Press harder.",
+            "good": "That is A on the G string."
+          }
+        },
+        {
+          "type": "listen",
+          "prompt": "Open C, the hardest string. Slowest bow, most weight.",
+          "target": { "string": "C" },
+          "holdSec": 3.0,
+          "toleranceCents": 55,
+          "reps": 4,
+          "passReps": 2,
+          "metrics": ["pitch", "duration", "tone"],
+          "coach": {
+            "silence": "Nothing came through. Go slower still, and let real arm weight rest in the string.",
+            "uneven": "Woolly and uneven is normal for a C string on a 1/8 cello. Keep the bow slow and even and take what you can get.",
+            "good": "You have all four strings sounding now."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l13",
+      "unit": "u4",
+      "title": "Ode to Joy",
+      "minutes": 9,
+      "goal": "Play a second, longer tune using the full D major scale across two strings.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "The notes",
+          "body": [
+            "Beethoven's tune in D major sits perfectly in the hand position you know.",
+            "Phrase one: F sharp, F sharp, G, A.",
+            "Phrase two: A, G, F sharp, E.",
+            "Phrase three: D, D, E, F sharp.",
+            "Phrase four: F sharp held long, then E, then E held long."
+          ]
+        },
+        {
+          "type": "sequence",
+          "prompt": "Phrase one and two together: F sharp, F sharp, G, A, A, G, F sharp, E.",
+          "notes": ["F#3", "F#3", "G3", "A3", "A3", "G3", "F#3", "E3"],
+          "holdSec": 1.0,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "That is the opening of Ode to Joy."
+          }
+        },
+        {
+          "type": "sequence",
+          "prompt": "Phrases three and four: D, D, E, F sharp, F sharp, E, E.",
+          "notes": ["D3", "D3", "E3", "F#3", "F#3", "E3", "E3"],
+          "holdSec": 1.0,
+          "toleranceCents": 45,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "You have played the whole melody."
+          }
+        }
+      ]
+    },
+    {
+      "id": "l14",
+      "unit": "u4",
+      "title": "Review, and playing with a drone",
+      "minutes": 10,
+      "goal": "Tune, play the scale against a drone to test your intonation honestly, and play a tune through.",
+      "steps": [
+        {
+          "type": "info",
+          "title": "Why a drone is the best intonation teacher",
+          "body": [
+            "A drone is a single held note. When you play against it, notes that are in tune lock in and sound still, and notes that are out produce an audible beating or roughness.",
+            "Your ear learns this far faster than it learns from a meter on a screen."
+          ],
+          "tip": "Ten minutes of scales against a drone is worth an hour of scales alone."
+        },
+        {
+          "type": "tune",
+          "prompt": "Start by tuning, as always.",
+          "strings": ["A", "D", "G", "C"]
+        },
+        {
+          "type": "drone",
+          "note": "D3",
+          "prompt": "With the D drone sounding, play the D major scale up and down slowly. Listen for the notes that lock in and the ones that fight the drone."
+        },
+        {
+          "type": "sequence",
+          "prompt": "Last task. The D major scale, up, as accurately as you can manage.",
+          "notes": ["D3", "E3", "F#3", "G3", "A3", "B3", "C#4", "D4"],
+          "holdSec": 1.3,
+          "toleranceCents": 30,
+          "reps": 3,
+          "passReps": 2,
+          "coach": {
+            "good": "Tighter tolerance that time, and you passed it. You can tune the instrument, produce a controlled tone on all four strings, play a one octave scale and play two tunes. That is a genuine beginning."
+          }
+        },
+        {
+          "type": "check",
+          "prompt": "Where to go next.",
+          "items": [
+            "Practise little and often: fifteen minutes daily beats two hours once a week.",
+            "Always tune first, and always loosen the bow afterwards.",
+            "Use the drone in the practice tools to keep testing your intonation.",
+            "A larger cello will feel enormously easier when you are ready for one."
+          ]
+        }
+      ]
+    }
+  ]
+}

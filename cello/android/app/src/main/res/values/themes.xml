@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.Cello" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#003152</item>
+        <item name="android:navigationBarColor">#FAF7F0</item>
+    </style>
+</resources>
