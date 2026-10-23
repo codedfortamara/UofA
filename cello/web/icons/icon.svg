@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cello">
+  <rect width="512" height="512" fill="#003152"/>
+  <g fill="none" stroke="#c2a96a" stroke-width="13" stroke-linecap="round">
+    <!-- Cello body: upper and lower bouts with a waist, drawn as one outline. -->
+    <path d="M256 150
+             c 54 0 92 30 92 72
+             c 0 26 -16 44 -34 54
+             c 18 10 38 30 38 62
+             c 0 48 -42 82 -96 82
+             c -54 0 -96 -34 -96 -82
+             c 0 -32 20 -52 38 -62
+             c -18 -10 -34 -28 -34 -54
+             c 0 -42 38 -72 92 -72 z"/>
+    <!-- Neck and scroll. -->
+    <path d="M256 150 V 66"/>
+    <path d="M232 92 h 48 M232 118 h 48"/>
+  </g>
+  <!-- The four strings, the detail that says cello rather than violin. -->
+  <g stroke="#faf7f0" stroke-width="5" opacity="0.85">
+    <path d="M232 160 V 392"/>
+    <path d="M248 160 V 392"/>
+    <path d="M264 160 V 392"/>
+    <path d="M280 160 V 392"/>
+  </g>
+  <!-- Bridge. -->
+  <path d="M214 330 h 84" stroke="#c2a96a" stroke-width="11" stroke-linecap="round"/>
+</svg>

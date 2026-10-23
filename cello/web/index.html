@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cello from scratch</title>
+<meta name="description" content="A cello tuner and a fourteen lesson beginner course that listens to your playing and tells you what to change. Works offline.">
+<meta name="theme-color" content="#003152">
+<meta name="color-scheme" content="light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-row">
+    <h1>Cello from scratch</h1>
+    <span class="sub caps">1/8 size</span>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button id="tab-tune" role="tab" aria-selected="true" aria-controls="view-tune">Tune</button>
+    <button id="tab-learn" role="tab" aria-selected="false" aria-controls="view-learn">Lessons</button>
+    <button id="tab-practise" role="tab" aria-selected="false" aria-controls="view-practise">Practise</button>
+  </nav>
+</header>
+
+<main>
+  <!-- Microphone gate. Shown until the user grants access, because every
+       other part of the app needs it and failing silently is the single most
+       common way a tuner appears broken. -->
+  <section id="mic-gate" hidden>
+    <div class="card">
+      <h2>Let the app hear your cello</h2>
+      <p>Everything here works by listening: the tuner reads the pitch of each string, and the lessons
+      listen to you play and tell you what to change.</p>
+      <p>Nothing is recorded and nothing leaves your device. All the analysis happens on your phone.</p>
+      <div class="btn-row">
+        <button class="btn wide" id="mic-allow">Allow the microphone</button>
+      </div>
+      <p class="tip" style="margin-bottom:0">Your browser will ask for permission. If you have refused it before,
+      tap the padlock next to the web address, switch the microphone on for this site, then reload.</p>
+    </div>
+    <div class="notice" id="mic-error" hidden></div>
+  </section>
+
+  <section id="view-tune" role="tabpanel" aria-labelledby="tab-tune" hidden></section>
+  <section id="view-learn" role="tabpanel" aria-labelledby="tab-learn" hidden></section>
+  <section id="view-practise" role="tabpanel" aria-labelledby="tab-practise" hidden></section>
+</main>
+
+<footer class="foot">
+  <p style="margin:0">Built for a 1/8 size cello. Works offline once loaded.<br>
+  <span id="foot-rate"></span></p>
+</footer>
+
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
